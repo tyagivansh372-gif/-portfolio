@@ -10,9 +10,7 @@ import {
   ExternalLink, 
   Mail, 
   MapPin, 
-  Phone,
   Linkedin,
-  Twitter,
   Code,
   Palette,
   Database,
@@ -622,23 +620,9 @@ export default function Portfolio() {
                   <Button
                     size="sm"
                     className="bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm"
-                    onClick={() => window.open('https://github.com', '_blank')}
-                  >
-                    <Github className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    size="sm"
-                    className="bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm"
                     onClick={() => window.open('https://www.linkedin.com/in/vansh-tyagi-069365328?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app', '_blank')}
                   >
                     <Linkedin className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    size="sm"
-                    className="bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm"
-                    onClick={() => window.open('https://twitter.com', '_blank')}
-                  >
-                    <Twitter className="w-4 h-4" />
                   </Button>
                 </div>
               </div>
