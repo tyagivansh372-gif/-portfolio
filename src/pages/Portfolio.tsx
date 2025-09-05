@@ -24,6 +24,9 @@ import { useAction } from "convex/react";
 import { api } from "@/convex/_generated/api";
 
 const skills = [
+  { name: "HTML", category: "Frontend", icon: Code, level: 95 },
+  { name: "CSS", category: "Frontend", icon: Palette, level: 88 },
+  { name: "JavaScript", category: "Frontend", icon: Code, level: 85 },
   { name: "React", category: "Frontend", icon: Code, level: 95 },
   { name: "TypeScript", category: "Frontend", icon: Code, level: 90 },
   { name: "Next.js", category: "Frontend", icon: Globe, level: 88 },
@@ -262,7 +265,7 @@ export default function Portfolio() {
             >
               <h3 className="text-2xl font-bold text-white mb-6">My Journey</h3>
               <p className="text-white/90 mb-6 leading-relaxed">
-                I'm a passionate full-stack developer with over 4 years of experience creating 
+                I'm a passionate full-stack developer creating 
                 digital solutions that bridge the gap between design and functionality. My journey 
                 began with a curiosity about how websites work, which evolved into a deep love 
                 for crafting exceptional user experiences.
