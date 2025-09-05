@@ -610,7 +610,7 @@ export default function Portfolio() {
                   </div>
                   <div>
                     <p className="text-white/60 text-sm">Location</p>
-                    <p className="text-white font-semibold">NEW delhi , INDIA</p>
+                    <p className="text-white font-semibold">New Delhi, INDIA</p>
                   </div>
                 </div>
               </div>
@@ -713,7 +713,7 @@ export default function Portfolio() {
       <footer className="py-12 border-t border-white/20">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <p className="text-white/60">
-            © 2024 Vansh Tyagi. Built with React, TypeScript, and lots of ☕
+            © 2025 Vansh Tyagi. Built with React, TypeScript, and lots of ☕
           </p>
         </div>
       </footer>
