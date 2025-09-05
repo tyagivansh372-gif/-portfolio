@@ -19,7 +19,6 @@ import {
   Server,
   ChevronDown,
   Send,
-  User,
   Briefcase,
   MessageSquare,
   Instagram
@@ -261,14 +260,6 @@ export default function Portfolio() {
             transition={{ duration: 0.8 }}
             className="backdrop-blur-md bg-white/10 border border-white/20 rounded-3xl p-12 shadow-2xl"
           >
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-              className="w-32 h-32 mx-auto mb-8 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 flex items-center justify-center"
-            >
-              <User className="w-16 h-16 text-white" />
-            </motion.div>
             <motion.h1
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
