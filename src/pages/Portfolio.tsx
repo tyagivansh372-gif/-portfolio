@@ -127,10 +127,10 @@ export default function Portfolio() {
       {/* Glassmorphism Background */}
       <div className="fixed inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-400 via-pink-500 to-red-500"></div>
-        <div className="absolute top-0 left-0 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-        <div className="absolute top-0 right-0 w-96 h-96 bg-yellow-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-8 left-20 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-green-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-6000"></div>
+        <div className="absolute top-0 left-0 w-56 h-56 sm:w-72 sm:h-72 md:w-96 md:h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+        <div className="absolute top-0 right-0 w-56 h-56 sm:w-72 sm:h-72 md:w-96 md:h-96 bg-yellow-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-8 left-6 w-56 h-56 sm:w-72 sm:h-72 md:w-96 md:h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+        <div className="absolute bottom-0 right-0 w-56 h-56 sm:w-72 sm:h-72 md:w-96 md:h-96 bg-green-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-6000"></div>
       </div>
 
       {/* Navigation */}
@@ -165,6 +165,24 @@ export default function Portfolio() {
                 ))}
               </div>
             </div>
+            {/* Mobile nav: horizontal scroll buttons */}
+            <div className="mt-3 md:hidden -mx-2 overflow-x-auto">
+              <div className="flex gap-2 px-2">
+                {["home", "about", "skills", "contact"].map((section) => (
+                  <button
+                    key={section}
+                    onClick={() => scrollToSection(section)}
+                    className={`px-3 py-1.5 rounded-full text-sm border transition-colors ${
+                      activeSection === section
+                        ? "bg-white/20 text-white border-white/30"
+                        : "text-white/80 border-white/20 hover:bg-white/10"
+                    }`}
+                  >
+                    {section}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </motion.nav>
@@ -176,7 +194,7 @@ export default function Portfolio() {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="backdrop-blur-md bg-white/10 border border-white/20 rounded-3xl p-12 shadow-2xl"
+            className="backdrop-blur-md bg-white/10 border border-white/20 rounded-3xl p-6 md:p-12 shadow-2xl"
           >
             <motion.h1
               initial={{ opacity: 0 }}
@@ -258,7 +276,7 @@ export default function Portfolio() {
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-8 shadow-xl"
+              className="backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-6 md:p-8 shadow-xl"
             >
               <h3 className="text-2xl font-bold text-white mb-6">My Journey</h3>
               <p className="text-white/90 mb-6 leading-relaxed">
@@ -283,7 +301,7 @@ export default function Portfolio() {
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-8 shadow-xl"
+              className="backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-6 md:p-8 shadow-xl"
             >
               <h3 className="text-2xl font-bold text-white mb-6">What I Do</h3>
               <div className="space-y-6">
@@ -408,7 +426,7 @@ export default function Portfolio() {
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-8 shadow-xl"
+              className="backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-6 md:p-8 shadow-xl"
             >
               <h3 className="text-2xl font-bold text-white mb-6">Contact Information</h3>
               <div className="space-y-6">
@@ -457,7 +475,7 @@ export default function Portfolio() {
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-8 shadow-xl"
+              className="backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-6 md:p-8 shadow-xl"
             >
               <h3 className="text-2xl font-bold text-white mb-6">Send Message</h3>
               <form onSubmit={handleContactSubmit} className="space-y-6">
