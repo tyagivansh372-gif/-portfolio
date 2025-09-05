@@ -234,7 +234,7 @@ export default function Portfolio() {
                 Portfolio
               </motion.div>
               <div className="hidden md:flex space-x-8">
-                {["home", "about", "projects", "skills", "experience", "contact"].map((section) => (
+                {["home", "about", "projects", "skills", "contact"].map((section) => (
                   <motion.button
                     key={section}
                     whileHover={{ scale: 1.05 }}
@@ -276,7 +276,7 @@ export default function Portfolio() {
               transition={{ delay: 0.4 }}
               className="text-5xl md:text-7xl font-bold text-white mb-6"
             >
-              John Doe
+              Vansh Tyagi
             </motion.h1>
             <motion.p
               initial={{ opacity: 0 }}
@@ -571,45 +571,6 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Experience Section */}
-      <section id="experience" className="py-20">
-        <div className="max-w-6xl mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Experience</h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-purple-400 to-pink-400 mx-auto"></div>
-          </motion.div>
-
-          <div className="space-y-8">
-            {experiences.map((experience, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.2 }}
-                className="backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-8 shadow-xl"
-              >
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
-                  <div>
-                    <h3 className="text-2xl font-bold text-white mb-2">{experience.title}</h3>
-                    <p className="text-lg text-purple-300 mb-2">{experience.company}</p>
-                  </div>
-                  <Badge className="bg-white/20 text-white border-white/30 w-fit">
-                    {experience.period}
-                  </Badge>
-                </div>
-                <p className="text-white/80 leading-relaxed">{experience.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Contact Section */}
       <section id="contact" className="py-20">
         <div className="max-w-6xl mx-auto px-4">
@@ -769,7 +730,7 @@ export default function Portfolio() {
       <footer className="py-12 border-t border-white/20">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <p className="text-white/60">
-            © 2024 John Doe. Built with React, TypeScript, and lots of ☕
+            © 2024 Vansh Tyagi. Built with React, TypeScript, and lots of ☕
           </p>
         </div>
       </footer>
