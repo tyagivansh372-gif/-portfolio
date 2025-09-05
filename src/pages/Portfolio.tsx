@@ -142,6 +142,11 @@ export default function Portfolio() {
     email: "",
     message: ""
   });
+  const [errors, setErrors] = useState<{ name: string; email: string; message: string }>({
+    name: "",
+    email: "",
+    message: ""
+  });
 
   const categories = ["All", "Frontend", "Backend", "Full Stack", "Mobile"];
   const skillCategories = ["All", "Frontend", "Backend", "Mobile", "DevOps"];
@@ -162,10 +167,39 @@ export default function Portfolio() {
     }
   };
 
+  const validateEmail = (email: string) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  const validateForm = () => {
+    const newErrors = { name: "", email: "", message: "" };
+
+    if (!contactForm.name.trim() || contactForm.name.trim().length < 2) {
+      newErrors.name = "Please enter your name (at least 2 characters).";
+    }
+
+    if (!contactForm.email.trim() || !validateEmail(contactForm.email.trim())) {
+      newErrors.email = "Please enter a valid email address.";
+    }
+
+    if (!contactForm.message.trim() || contactForm.message.trim().length < 10) {
+      newErrors.message = "Please enter a message (at least 10 characters).";
+    }
+
+    setErrors(newErrors);
+    return !newErrors.name && !newErrors.email && !newErrors.message;
+  };
+
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validateForm()) {
+      toast.error("Please fix the highlighted fields.");
+      return;
+    }
     toast.success("Message sent successfully! I'll get back to you soon.");
     setContactForm({ name: "", email: "", message: "" });
+    setErrors({ name: "", email: "", message: "" });
   };
 
   const filteredSkills = selectedSkillCategory === "All" 
@@ -670,29 +704,53 @@ export default function Portfolio() {
                   <Input
                     placeholder="Your Name"
                     value={contactForm.name}
-                    onChange={(e) => setContactForm({...contactForm, name: e.target.value})}
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/60 backdrop-blur-sm"
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setContactForm({ ...contactForm, name: value });
+                      if (errors.name) setErrors({ ...errors, name: "" });
+                    }}
+                    aria-invalid={!!errors.name}
+                    className={`bg-white/10 border-white/20 text-white placeholder:text-white/60 backdrop-blur-sm ${errors.name ? "border-red-500 focus-visible:ring-red-500" : ""}`}
                     required
                   />
+                  {errors.name && (
+                    <p className="mt-2 text-sm text-red-400">{errors.name}</p>
+                  )}
                 </div>
                 <div>
                   <Input
                     type="email"
                     placeholder="Your Email"
                     value={contactForm.email}
-                    onChange={(e) => setContactForm({...contactForm, email: e.target.value})}
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/60 backdrop-blur-sm"
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setContactForm({ ...contactForm, email: value });
+                      if (errors.email) setErrors({ ...errors, email: "" });
+                    }}
+                    aria-invalid={!!errors.email}
+                    className={`bg-white/10 border-white/20 text-white placeholder:text-white/60 backdrop-blur-sm ${errors.email ? "border-red-500 focus-visible:ring-red-500" : ""}`}
                     required
                   />
+                  {errors.email && (
+                    <p className="mt-2 text-sm text-red-400">{errors.email}</p>
+                  )}
                 </div>
                 <div>
                   <Textarea
                     placeholder="Your Message"
                     value={contactForm.message}
-                    onChange={(e) => setContactForm({...contactForm, message: e.target.value})}
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/60 backdrop-blur-sm min-h-32"
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setContactForm({ ...contactForm, message: value });
+                      if (errors.message) setErrors({ ...errors, message: "" });
+                    }}
+                    aria-invalid={!!errors.message}
+                    className={`bg-white/10 border-white/20 text-white placeholder:text-white/60 backdrop-blur-sm min-h-32 ${errors.message ? "border-red-500 focus-visible:ring-red-500" : ""}`}
                     required
                   />
+                  {errors.message && (
+                    <p className="mt-2 text-sm text-red-400">{errors.message}</p>
+                  )}
                 </div>
                 <Button
                   type="submit"
