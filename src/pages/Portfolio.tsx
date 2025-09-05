@@ -21,7 +21,8 @@ import {
   Send,
   User,
   Briefcase,
-  MessageSquare
+  MessageSquare,
+  Instagram
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -623,6 +624,13 @@ export default function Portfolio() {
                     onClick={() => window.open('https://www.linkedin.com/in/vansh-tyagi-069365328?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app', '_blank')}
                   >
                     <Linkedin className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    size="sm"
+                    className="bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm"
+                    onClick={() => window.open('https://www.instagram.com/tyagiofficialy?utm_source=qr&igsh=djdxYjBxZzdveG16', '_blank')}
+                  >
+                    <Instagram className="w-4 h-4" />
                   </Button>
                 </div>
               </div>
