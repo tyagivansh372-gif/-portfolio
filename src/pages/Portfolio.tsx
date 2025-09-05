@@ -51,6 +51,7 @@ export default function Portfolio() {
     email: "",
     message: ""
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId);
@@ -61,23 +62,27 @@ export default function Portfolio() {
   };
 
   const validateEmail = (email: string) => {
+    // Slightly stricter but still permissive email regex
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(String(email).toLowerCase());
   };
 
   const validateForm = () => {
     const newErrors = { name: "", email: "", message: "" };
+    const name = contactForm.name.trim();
+    const email = contactForm.email.trim();
+    const message = contactForm.message.trim();
 
-    if (!contactForm.name.trim() || contactForm.name.trim().length < 2) {
-      newErrors.name = "Please enter your name (at least 2 characters).";
+    if (name.length < 2 || name.length > 100) {
+      newErrors.name = "Name must be between 2 and 100 characters.";
     }
 
-    if (!contactForm.email.trim() || !validateEmail(contactForm.email.trim())) {
+    if (!validateEmail(email) || email.length > 254) {
       newErrors.email = "Please enter a valid email address.";
     }
 
-    if (!contactForm.message.trim() || contactForm.message.trim().length < 10) {
-      newErrors.message = "Please enter a message (at least 10 characters).";
+    if (message.length < 10) {
+      newErrors.message = "Message must be at least 10 characters.";
     }
 
     setErrors(newErrors);
@@ -93,6 +98,7 @@ export default function Portfolio() {
       return;
     }
     try {
+      setIsSubmitting(true);
       await sendContact({
         name: contactForm.name.trim(),
         email: contactForm.email.trim(),
@@ -107,6 +113,8 @@ export default function Portfolio() {
           ? err.message
           : "Failed to send message. Please try again later.";
       toast.error(message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -463,6 +471,7 @@ export default function Portfolio() {
                       if (errors.name) setErrors({ ...errors, name: "" });
                     }}
                     aria-invalid={!!errors.name}
+                    maxLength={100}
                     className={`bg-white/10 border-white/20 text-white placeholder:text-white/60 backdrop-blur-sm ${errors.name ? "border-red-500 focus-visible:ring-red-500" : ""}`}
                     required
                   />
@@ -481,6 +490,7 @@ export default function Portfolio() {
                       if (errors.email) setErrors({ ...errors, email: "" });
                     }}
                     aria-invalid={!!errors.email}
+                    maxLength={254}
                     className={`bg-white/10 border-white/20 text-white placeholder:text-white/60 backdrop-blur-sm ${errors.email ? "border-red-500 focus-visible:ring-red-500" : ""}`}
                     required
                   />
@@ -498,6 +508,7 @@ export default function Portfolio() {
                       if (errors.message) setErrors({ ...errors, message: "" });
                     }}
                     aria-invalid={!!errors.message}
+                    maxLength={5000}
                     className={`bg-white/10 border-white/20 text-white placeholder:text-white/60 backdrop-blur-sm min-h-32 ${errors.message ? "border-red-500 focus-visible:ring-red-500" : ""}`}
                     required
                   />
@@ -507,10 +518,11 @@ export default function Portfolio() {
                 </div>
                 <Button
                   type="submit"
+                  disabled={isSubmitting}
                   className="w-full bg-gradient-to-r from-purple-400 to-pink-400 hover:from-purple-500 hover:to-pink-500 text-white"
                 >
                   <Send className="w-4 h-4 mr-2" />
-                  Send Message
+                  {isSubmitting ? "Sending..." : "Send Message"}
                 </Button>
               </form>
             </motion.div>

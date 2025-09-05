@@ -17,22 +17,27 @@ export const sendContactEmail = action({
       );
     }
 
-    // Add: Basic input normalization and validation
+    // Server-side validation (defense in depth)
     const trimmedName = name.trim();
     const trimmedEmail = email.trim();
     const trimmedMessage = message.trim();
 
     if (trimmedName.length < 2 || trimmedName.length > 100) {
-      throw new Error("Please provide a valid name (2–100 characters).");
+      throw new Error("Name must be between 2 and 100 characters.");
     }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i;
-    if (!emailRegex.test(trimmedEmail) || /[\r\n]/.test(trimmedEmail)) {
-      // prevent header injection via CRLF
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRe.test(trimmedEmail) || trimmedEmail.length > 254) {
       throw new Error("Please provide a valid email address.");
     }
-    if (trimmedMessage.length < 10 || trimmedMessage.length > 5000) {
-      throw new Error("Please provide a message between 10 and 5000 characters.");
+    if (trimmedMessage.length < 10) {
+      throw new Error("Message must be at least 10 characters long.");
     }
+    // Cap message length to prevent abuse
+    const MAX_MESSAGE_LEN = 5000;
+    const safeMessage =
+      trimmedMessage.length > MAX_MESSAGE_LEN
+        ? trimmedMessage.slice(0, MAX_MESSAGE_LEN)
+        : trimmedMessage;
 
     const to = "tyagivansh372@gmail.com";
     const subject = `New portfolio message from ${trimmedName}`;
@@ -43,7 +48,7 @@ export const sendContactEmail = action({
         <p><strong>Email:</strong> ${escapeHtml(trimmedEmail)}</p>
         <p><strong>Message:</strong></p>
         <div style="white-space: pre-wrap; background: #f6f6f6; padding: 12px; border-radius: 8px; border: 1px solid #eee;">
-          ${escapeHtml(trimmedMessage)}
+          ${escapeHtml(safeMessage)}
         </div>
         <hr style="margin: 16px 0; border: none; border-top: 1px solid #eee;" />
         <p style="font-size: 12px; color: #666;">Sent from Vansh's Portfolio</p>
@@ -58,9 +63,9 @@ export const sendContactEmail = action({
       html,
     };
 
-    // Add: Timeout + robust error handling around fetch
+    // Add timeout & improved error parsing
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 15000);
+    const timeout = setTimeout(() => controller.abort(), 10000);
 
     try {
       const res = await fetch("https://api.resend.com/emails", {
@@ -73,40 +78,30 @@ export const sendContactEmail = action({
         signal: controller.signal,
       });
 
-      clearTimeout(timeout);
-
       if (!res.ok) {
-        // Try to parse structured error from Resend
-        let detail = "";
+        let reason = "";
         try {
           const data = await res.json();
-          // Resend error format typically: { error: { message: string } }
-          detail =
-            (data && (data.error?.message || data.message || JSON.stringify(data))) ||
-            "";
+          reason = data?.error?.message || data?.message || "";
         } catch {
-          // Fallback to raw text if JSON not available
-          detail = (await res.text().catch(() => "")) || "";
+          const text = await res.text().catch(() => "");
+          reason = text || "";
         }
-        const hint =
-          "Please verify your Resend API key and that your sender domain/address is verified.";
         throw new Error(
-          `Failed to send email (status ${res.status}). ${detail || hint}`
+          `Failed to send email (status ${res.status}). ${reason || "Please verify your Resend API key and sender domain."}`
         );
       }
 
       return { ok: true };
     } catch (err) {
-      clearTimeout(timeout);
-      if ((err as Error).name === "AbortError") {
-        throw new Error("Email service timed out. Please try again in a moment.");
+      if (err instanceof Error && err.name === "AbortError") {
+        throw new Error("Email request timed out. Please try again.");
       }
-      // Normalize unexpected errors
-      const msg =
-        err instanceof Error
-          ? err.message
-          : "Unexpected error occurred while sending email.";
-      throw new Error(msg);
+      throw new Error(
+        err instanceof Error ? err.message : "Unexpected error sending email."
+      );
+    } finally {
+      clearTimeout(timeout);
     }
   },
 });
