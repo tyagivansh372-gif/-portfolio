@@ -20,6 +20,8 @@ import {
   Instagram
 } from "lucide-react";
 import { toast } from "sonner";
+import { useAction } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 const skills = [
   { name: "React", category: "Frontend", icon: Code, level: 95 },
@@ -82,15 +84,30 @@ export default function Portfolio() {
     return !newErrors.name && !newErrors.email && !newErrors.message;
   };
 
-  const handleContactSubmit = (e: React.FormEvent) => {
+  const sendContact = useAction(api.contact.sendContactEmail);
+
+  const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) {
       toast.error("Please fix the highlighted fields.");
       return;
     }
-    toast.success("Message sent successfully! I'll get back to you soon.");
-    setContactForm({ name: "", email: "", message: "" });
-    setErrors({ name: "", email: "", message: "" });
+    try {
+      await sendContact({
+        name: contactForm.name.trim(),
+        email: contactForm.email.trim(),
+        message: contactForm.message.trim(),
+      });
+      toast.success("Message sent successfully! I'll get back to you soon.");
+      setContactForm({ name: "", email: "", message: "" });
+      setErrors({ name: "", email: "", message: "" });
+    } catch (err) {
+      const message =
+        err instanceof Error
+          ? err.message
+          : "Failed to send message. Please try again later.";
+      toast.error(message);
+    }
   };
 
   const filteredSkills = selectedSkillCategory === "All" 
