@@ -6,8 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { 
-  Github, 
-  ExternalLink, 
   Mail, 
   MapPin, 
   Linkedin,
@@ -19,8 +17,6 @@ import {
   Server,
   ChevronDown,
   Send,
-  Briefcase,
-  MessageSquare,
   Instagram
 } from "lucide-react";
 import { toast } from "sonner";
@@ -40,100 +36,8 @@ const skills = [
   { name: "GraphQL", category: "Backend", icon: Database, level: 85 }
 ];
 
-const projects = [
-  {
-    id: 1,
-    title: "E-Commerce Platform",
-    description: "Full-stack e-commerce solution with React, Node.js, and Stripe integration. Features include user authentication, product management, shopping cart, and payment processing.",
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop",
-    technologies: ["React", "Node.js", "MongoDB", "Stripe"],
-    category: "Full Stack",
-    github: "https://github.com",
-    live: "https://example.com",
-    featured: true
-  },
-  {
-    id: 2,
-    title: "Task Management App",
-    description: "Collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.",
-    image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=600&h=400&fit=crop",
-    technologies: ["React", "TypeScript", "Socket.io", "PostgreSQL"],
-    category: "Frontend",
-    github: "https://github.com",
-    live: "https://example.com",
-    featured: true
-  },
-  {
-    id: 3,
-    title: "Weather Dashboard",
-    description: "Beautiful weather dashboard with location-based forecasts, interactive maps, and detailed weather analytics.",
-    image: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=600&h=400&fit=crop",
-    technologies: ["React", "D3.js", "Weather API", "Tailwind"],
-    category: "Frontend",
-    github: "https://github.com",
-    live: "https://example.com",
-    featured: false
-  },
-  {
-    id: 4,
-    title: "Social Media API",
-    description: "RESTful API for social media platform with user management, posts, comments, and real-time notifications.",
-    image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop",
-    technologies: ["Node.js", "Express", "MongoDB", "JWT"],
-    category: "Backend",
-    github: "https://github.com",
-    live: "https://example.com",
-    featured: false
-  },
-  {
-    id: 5,
-    title: "Mobile Fitness Tracker",
-    description: "Cross-platform mobile app for fitness tracking with workout plans, progress monitoring, and social features.",
-    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop",
-    technologies: ["React Native", "Firebase", "Redux", "Expo"],
-    category: "Mobile",
-    github: "https://github.com",
-    live: "https://example.com",
-    featured: true
-  },
-  {
-    id: 6,
-    title: "AI Chat Interface",
-    description: "Modern chat interface with AI integration, real-time messaging, and intelligent response suggestions.",
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop",
-    technologies: ["React", "OpenAI API", "WebSocket", "Tailwind"],
-    category: "Full Stack",
-    github: "https://github.com",
-    live: "https://example.com",
-    featured: false
-  }
-];
-
-const experiences = [
-  {
-    title: "Senior Full Stack Developer",
-    company: "TechCorp Inc.",
-    period: "2022 - Present",
-    description: "Lead development of scalable web applications using React, Node.js, and cloud technologies. Mentor junior developers and architect system solutions."
-  },
-  {
-    title: "Frontend Developer",
-    company: "StartupXYZ",
-    period: "2020 - 2022",
-    description: "Built responsive web applications and mobile apps. Collaborated with design team to implement pixel-perfect UI/UX designs."
-  },
-  {
-    title: "Junior Developer",
-    company: "WebSolutions Ltd.",
-    period: "2019 - 2020",
-    description: "Developed and maintained client websites using modern web technologies. Gained experience in full-stack development."
-  }
-];
-
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("home");
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [filteredProjects, setFilteredProjects] = useState(projects);
   const [selectedSkillCategory, setSelectedSkillCategory] = useState("All");
   const [contactForm, setContactForm] = useState({
     name: "",
@@ -145,17 +49,6 @@ export default function Portfolio() {
     email: "",
     message: ""
   });
-
-  const categories = ["All", "Frontend", "Backend", "Full Stack", "Mobile"];
-  const skillCategories = ["All", "Frontend", "Backend", "Mobile", "DevOps"];
-
-  useEffect(() => {
-    if (selectedCategory === "All") {
-      setFilteredProjects(projects);
-    } else {
-      setFilteredProjects(projects.filter(project => project.category === selectedCategory));
-    }
-  }, [selectedCategory]);
 
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId);
@@ -232,7 +125,7 @@ export default function Portfolio() {
                 Portfolio
               </motion.div>
               <div className="hidden md:flex space-x-8">
-                {["home", "about", "projects", "skills", "contact"].map((section) => (
+                {["home", "about", "skills", "contact"].map((section) => (
                   <motion.button
                     key={section}
                     whileHover={{ scale: 1.05 }}
@@ -292,11 +185,11 @@ export default function Portfolio() {
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
               <Button
-                onClick={() => scrollToSection("projects")}
+                onClick={() => scrollToSection("skills")}
                 className="bg-white/20 hover:bg-white/30 text-white border border-white/30 backdrop-blur-sm"
                 size="lg"
               >
-                View My Work
+                View Skills
               </Button>
               <Button
                 onClick={() => scrollToSection("contact")}
@@ -402,98 +295,6 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Projects Section */}
-      <section id="projects" className="py-20">
-        <div className="max-w-6xl mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">My Projects</h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-purple-400 to-pink-400 mx-auto mb-8"></div>
-            
-            {/* Category Filter */}
-            <div className="flex flex-wrap justify-center gap-4 mb-12">
-              {categories.map((category) => (
-                <Button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  variant={selectedCategory === category ? "default" : "outline"}
-                  className={`${
-                    selectedCategory === category
-                      ? "bg-white/20 text-white border-white/30"
-                      : "border-white/30 text-white/80 hover:bg-white/10"
-                  } backdrop-blur-sm`}
-                >
-                  {category}
-                </Button>
-              ))}
-            </div>
-          </motion.div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -10 }}
-                className="group"
-              >
-                <Card className="backdrop-blur-md bg-white/10 border border-white/20 shadow-xl overflow-hidden h-full">
-                  <div className="relative overflow-hidden">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
-                    />
-                    {project.featured && (
-                      <Badge className="absolute top-4 left-4 bg-gradient-to-r from-yellow-400 to-orange-400 text-white">
-                        Featured
-                      </Badge>
-                    )}
-                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
-                      <Button
-                        size="sm"
-                        className="bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm"
-                        onClick={() => window.open(project.github, '_blank')}
-                      >
-                        <Github className="w-4 h-4" />
-                      </Button>
-                      <Button
-                        size="sm"
-                        className="bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm"
-                        onClick={() => window.open(project.live, '_blank')}
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </div>
-                  <CardContent className="p-6">
-                    <h3 className="text-xl font-bold text-white mb-3">{project.title}</h3>
-                    <p className="text-white/80 mb-4 text-sm leading-relaxed">{project.description}</p>
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.map((tech) => (
-                        <Badge
-                          key={tech}
-                          className="bg-white/20 text-white border-white/30 text-xs"
-                        >
-                          {tech}
-                        </Badge>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Skills Section */}
       <section id="skills" className="py-20">
         <div className="max-w-6xl mx-auto px-4">
@@ -508,7 +309,7 @@ export default function Portfolio() {
             
             {/* Skill Category Filter */}
             <div className="flex flex-wrap justify-center gap-4 mb-12">
-              {skillCategories.map((category) => (
+              {["All", "Frontend", "Backend", "Mobile", "DevOps"].map((category) => (
                 <Button
                   key={category}
                   onClick={() => setSelectedSkillCategory(category)}
