@@ -10,6 +10,7 @@ import {
   ExternalLink, 
   Mail, 
   MapPin, 
+  Phone,
   Linkedin,
   Twitter,
   Code,
