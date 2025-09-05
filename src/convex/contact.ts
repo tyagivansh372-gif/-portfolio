@@ -17,16 +17,33 @@ export const sendContactEmail = action({
       );
     }
 
+    // Add: Basic input normalization and validation
+    const trimmedName = name.trim();
+    const trimmedEmail = email.trim();
+    const trimmedMessage = message.trim();
+
+    if (trimmedName.length < 2 || trimmedName.length > 100) {
+      throw new Error("Please provide a valid name (2–100 characters).");
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i;
+    if (!emailRegex.test(trimmedEmail) || /[\r\n]/.test(trimmedEmail)) {
+      // prevent header injection via CRLF
+      throw new Error("Please provide a valid email address.");
+    }
+    if (trimmedMessage.length < 10 || trimmedMessage.length > 5000) {
+      throw new Error("Please provide a message between 10 and 5000 characters.");
+    }
+
     const to = "tyagivansh372@gmail.com";
-    const subject = `New portfolio message from ${name}`;
+    const subject = `New portfolio message from ${trimmedName}`;
     const html = `
       <div style="font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; line-height: 1.6;">
         <h2 style="margin: 0 0 12px;">New Contact Message</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Name:</strong> ${escapeHtml(trimmedName)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(trimmedEmail)}</p>
         <p><strong>Message:</strong></p>
         <div style="white-space: pre-wrap; background: #f6f6f6; padding: 12px; border-radius: 8px; border: 1px solid #eee;">
-          ${escapeHtml(message)}
+          ${escapeHtml(trimmedMessage)}
         </div>
         <hr style="margin: 16px 0; border: none; border-top: 1px solid #eee;" />
         <p style="font-size: 12px; color: #666;">Sent from Vansh's Portfolio</p>
@@ -37,27 +54,60 @@ export const sendContactEmail = action({
       from: "Vansh Portfolio <onboarding@resend.dev>",
       to,
       subject,
-      reply_to: email,
+      reply_to: trimmedEmail,
       html,
     };
 
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
+    // Add: Timeout + robust error handling around fetch
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
 
-    if (!res.ok) {
-      const text = await res.text().catch(() => "");
-      throw new Error(
-        `Failed to send email (status ${res.status}). ${text || "Please verify your Resend API key and domain/sender."}`
-      );
+    try {
+      const res = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeout);
+
+      if (!res.ok) {
+        // Try to parse structured error from Resend
+        let detail = "";
+        try {
+          const data = await res.json();
+          // Resend error format typically: { error: { message: string } }
+          detail =
+            (data && (data.error?.message || data.message || JSON.stringify(data))) ||
+            "";
+        } catch {
+          // Fallback to raw text if JSON not available
+          detail = (await res.text().catch(() => "")) || "";
+        }
+        const hint =
+          "Please verify your Resend API key and that your sender domain/address is verified.";
+        throw new Error(
+          `Failed to send email (status ${res.status}). ${detail || hint}`
+        );
+      }
+
+      return { ok: true };
+    } catch (err) {
+      clearTimeout(timeout);
+      if ((err as Error).name === "AbortError") {
+        throw new Error("Email service timed out. Please try again in a moment.");
+      }
+      // Normalize unexpected errors
+      const msg =
+        err instanceof Error
+          ? err.message
+          : "Unexpected error occurred while sending email.";
+      throw new Error(msg);
     }
-
-    return { ok: true };
   },
 });
 
