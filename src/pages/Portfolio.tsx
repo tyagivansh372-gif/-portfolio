@@ -127,24 +127,24 @@ export default function Portfolio() {
       {/* Glassmorphism Background */}
       <div className="fixed inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-400 via-pink-500 to-red-500"></div>
-        <div className="absolute top-0 left-0 w-56 h-56 sm:w-72 sm:h-72 md:w-96 md:h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-        <div className="absolute top-0 right-0 w-56 h-56 sm:w-72 sm:h-72 md:w-96 md:h-96 bg-yellow-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-8 left-6 w-56 h-56 sm:w-72 sm:h-72 md:w-96 md:h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
-        <div className="absolute bottom-0 right-0 w-56 h-56 sm:w-72 sm:h-72 md:w-96 md:h-96 bg-green-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-6000"></div>
+        <div className="absolute top-0 left-0 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob hidden sm:block"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-yellow-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-8 left-20 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000 hidden sm:block"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-green-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-6000"></div>
       </div>
 
       {/* Navigation */}
       <motion.nav 
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className="fixed top-0 left-0 right-0 z-50 p-4"
+        className="fixed top-0 left-0 right-0 z-50 p-3 md:p-4"
       >
         <div className="max-w-6xl mx-auto">
-          <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl px-6 py-4 shadow-lg">
+          <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl px-4 py-3 md:px-6 md:py-4 shadow-lg">
             <div className="flex items-center justify-between">
               <motion.div 
                 whileHover={{ scale: 1.05 }}
-                className="text-2xl font-bold text-white cursor-pointer"
+                className="text-xl md:text-2xl font-bold text-white cursor-pointer"
                 onClick={() => scrollToSection("home")}
               >
                 Portfolio
@@ -162,24 +162,6 @@ export default function Portfolio() {
                   >
                     {section}
                   </motion.button>
-                ))}
-              </div>
-            </div>
-            {/* Mobile nav: horizontal scroll buttons */}
-            <div className="mt-3 md:hidden -mx-2 overflow-x-auto">
-              <div className="flex gap-2 px-2">
-                {["home", "about", "skills", "contact"].map((section) => (
-                  <button
-                    key={section}
-                    onClick={() => scrollToSection(section)}
-                    className={`px-3 py-1.5 rounded-full text-sm border transition-colors ${
-                      activeSection === section
-                        ? "bg-white/20 text-white border-white/30"
-                        : "text-white/80 border-white/20 hover:bg-white/10"
-                    }`}
-                  >
-                    {section}
-                  </button>
                 ))}
               </div>
             </div>
@@ -229,7 +211,7 @@ export default function Portfolio() {
             >
               <Button
                 onClick={() => scrollToSection("skills")}
-                className="bg-white/20 hover:bg-white/30 text-white border border-white/30 backdrop-blur-sm"
+                className="w-full sm:w-auto bg-white/20 hover:bg-white/30 text-white border border-white/30 backdrop-blur-sm"
                 size="lg"
               >
                 View Skills
@@ -237,7 +219,7 @@ export default function Portfolio() {
               <Button
                 onClick={() => scrollToSection("contact")}
                 variant="outline"
-                className="border-white/30 text-white hover:bg-white/10 backdrop-blur-sm"
+                className="w-full sm:w-auto border-white/30 text-white hover:bg-white/10 backdrop-blur-sm"
                 size="lg"
               >
                 Get In Touch
@@ -259,7 +241,7 @@ export default function Portfolio() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20">
+      <section id="about" className="py-14 md:py-20">
         <div className="max-w-6xl mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -271,7 +253,7 @@ export default function Portfolio() {
             <div className="w-24 h-1 bg-gradient-to-r from-purple-400 to-pink-400 mx-auto"></div>
           </motion.div>
           
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 gap-6 md:gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -339,7 +321,7 @@ export default function Portfolio() {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="py-20">
+      <section id="skills" className="py-14 md:py-20">
         <div className="max-w-6xl mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -369,7 +351,7 @@ export default function Portfolio() {
             </div>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {filteredSkills.map((skill, index) => (
               <motion.div
                 key={skill.name}
@@ -406,7 +388,7 @@ export default function Portfolio() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20">
+      <section id="contact" className="py-14 md:py-20">
         <div className="max-w-6xl mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -421,7 +403,7 @@ export default function Portfolio() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-12">
+          <div className="grid md:grid-cols-2 gap-6 md:gap-12">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -455,15 +437,17 @@ export default function Portfolio() {
                 <div className="flex space-x-4">
                   <Button
                     size="sm"
-                    className="bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm"
+                    className="h-10 w-10 md:h-9 md:w-9 p-0 bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm"
                     onClick={() => window.open('https://www.linkedin.com/in/vansh-tyagi-069365328?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app', '_blank')}
+                    aria-label="Open LinkedIn"
                   >
                     <Linkedin className="w-4 h-4" />
                   </Button>
                   <Button
                     size="sm"
-                    className="bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm"
+                    className="h-10 w-10 md:h-9 md:w-9 p-0 bg-white/20 hover:bg-white/30 text-white backdrop-blur-sm"
                     onClick={() => window.open('https://www.instagram.com/tyagiofficialy?utm_source=qr&igsh=djdxYjBxZzdveG16', '_blank')}
+                    aria-label="Open Instagram"
                   >
                     <Instagram className="w-4 h-4" />
                   </Button>
@@ -478,7 +462,7 @@ export default function Portfolio() {
               className="backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-6 md:p-8 shadow-xl"
             >
               <h3 className="text-2xl font-bold text-white mb-6">Send Message</h3>
-              <form onSubmit={handleContactSubmit} className="space-y-6">
+              <form onSubmit={handleContactSubmit} className="space-y-5 md:space-y-6">
                 <div>
                   <Input
                     placeholder="Your Name"
@@ -549,7 +533,7 @@ export default function Portfolio() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 border-t border-white/20">
+      <footer className="py-8 md:py-12 border-t border-white/20">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <p className="text-white/60">
             © 2025 Vansh Tyagi. Built with React, TypeScript, and lots of ☕
