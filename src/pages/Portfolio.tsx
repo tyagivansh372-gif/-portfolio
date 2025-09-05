@@ -9,7 +9,6 @@ import {
   Github, 
   ExternalLink, 
   Mail, 
-  Phone, 
   MapPin, 
   Linkedin,
   Twitter,
@@ -602,16 +601,7 @@ export default function Portfolio() {
                   </div>
                   <div>
                     <p className="text-white/60 text-sm">Email</p>
-                    <p className="text-white font-semibold">john.doe@example.com</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-green-400 to-blue-400 rounded-lg flex items-center justify-center">
-                    <Phone className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <p className="text-white/60 text-sm">Phone</p>
-                    <p className="text-white font-semibold">+1 (555) 123-4567</p>
+                    <p className="text-white font-semibold">tyagivansh372@gmail.com</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-4">
@@ -620,7 +610,7 @@ export default function Portfolio() {
                   </div>
                   <div>
                     <p className="text-white/60 text-sm">Location</p>
-                    <p className="text-white font-semibold">San Francisco, CA</p>
+                    <p className="text-white font-semibold">NEW delhi , INDIA</p>
                   </div>
                 </div>
               </div>
